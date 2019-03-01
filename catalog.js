@@ -1,4 +1,5 @@
-var $catalog = document.getElementsByClassName('catalog');
+// var $catalog = document.getElementsByClassName('catalog');
+var $catalog = document.querySelector('.catalog')
 var $table = document.createElement('table');
 
 var productsArray = [
@@ -44,4 +45,5 @@ for(i = 0; i < productsArray.length; i++){
   $table.appendChild($row);
 }
 
-$catalog[0].appendChild($table);
+// $catalog[0].appendChild($table);
+$catalog.appendChild($table);

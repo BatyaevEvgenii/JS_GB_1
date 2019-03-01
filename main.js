@@ -1,4 +1,126 @@
 /* ******************************** */
+// Задание 5
+// 1. Создать функцию, генерирующую шахматную доску. Можно использовать любые html-теги. 
+// Доска должна быть верно разлинована на черные и белые ячейки. 
+// Строки должны нумероваться числами от 1 до 8, столбцы — латинскими буквами A, B, C, D, E, F, G, H.
+
+// сделаю через чередование белой и черной клетки
+// клетки (черная/белая) - в виде квадратов соответствующих цветов
+// для подписей по оси Х использую массив букв, а по оси Y - массив цифр
+
+var $board = document.getElementById('board');
+var $table = document.createElement('table');
+var size = 8;
+
+for (var i = 0; i < size; i++) {
+  var $row = document.createElement('tr');
+  for (var j = 0; j < size; j++) {
+    var $cell = document.createElement('td');
+    if ((j + i) % 2 == 0)
+      $cell.textContent += "|";
+    else
+      $cell.textContent += "|B";
+    $row.appendChild($cell);
+  }
+  $table.appendChild($row);
+}
+$board.appendChild($table);
+
+
+// 2. Сделать генерацию корзины динамической: верстка корзины не должна находиться в HTML-структуре. 
+// Там должен быть только ​div,​ в который будет вставляться корзина, сгенерированная на базе JS:
+// a. Пустая корзина должна выводить строку «Корзина пуста»;
+// b. Наполненная должна выводить «В корзине: ​n​товаров на сумму ​m​рублей».
+
+var $basket = document.getElementById('basket')
+var unit = [
+  {
+      id: 1, // 'good_1'
+      name: 'Футболка',
+      price: 1000,
+      quantity: 3,
+  },
+  {
+      id: 2, // 'good_2'
+      name: 'Носки',
+      price: 546,
+      quantity: 9,
+  },
+];
+
+var total = 0; 
+var count = 0;
+if (unit.length == 0){
+  $basket.textContent = 'Корзина пуста!!!';
+}
+else {
+  for(var i = 0; i < unit.length; i++){
+    total = total + unit[i].price * unit[i].quantity;
+    // count += (unit.length - 1); // количество наименований товаров
+    count += unit[i].quantity; // общее количество товара, в штуках
+}
+
+$basket.textContent = 'В корзине: '+ count + ' товар(-ов), на сумму ' + total + ' рублей.';
+}
+
+
+
+
+// 3. * Сделать так, чтобы товары в каталоге выводились при помощи JS:
+// a. Создать массив товаров (сущность ​Product)​;
+// b. При загрузке страницы на базе данного массива генерировать вывод из него. 
+// HTML-код должен содержать только ​div id=”catalog” ​без вложенного кода. 
+// Весь вид каталога генерируется JS.
+var $catalog = document.getElementsByClassName('catalog');
+var $table = document.createElement('table');
+
+var productsArray = [
+  {
+    id: 1,
+    name: 'Футболка',
+    category: 'нижнее белье',
+    description: 'фирменная футболка Adidas от Прада',
+    image: '',
+    price: 1000,
+    quantity: 50,
+},
+{
+    id: 2,
+    name: 'Носки',
+    category: 'нижнее белье',
+    description: 'фирменная носки Reebok от Прада',
+    image: '',
+    price: 546,
+    quantity: 30,
+},
+{
+  id: 3,
+  name: 'шорты',
+  category: 'летнее белье',
+  description: 'легкие фирменная шорты Nike от Прада',
+  image: '',
+  price: 1200,
+  quantity: 20,
+},
+];
+
+
+for(i = 0; i < productsArray.length; i++){
+  var $row = document.createElement('tr');
+  $row.textContent = productsArray[i].id + ' image';
+  for(var j = 1; j < 2; j++){
+    var $cell = document.createElement('td');
+    $cell.textContent = productsArray[i].name + ', цена: ' +  productsArray[i].price + ' ₽, на складе: ' + productsArray[i].quantity + ' шт.';
+    $row.appendChild($cell);
+  }
+  
+  $table.appendChild($row);
+}
+
+$catalog[0].appendChild($table);
+
+
+/* ******************************** */
 // // Задание 4
 // 1. Написать функцию, преобразующую число в объект. 
 // Передавая на вход число от 0 до 999, надо получить на выходе объект, в котором 
@@ -36,19 +158,45 @@ function countNum(num){
 // b. Реализуйте такие объекты.
 // c. Перенести функционал подсчета корзины на объектно-ориентированную базу.
 
+// Вариант 1 (объект)
 var basket = {  product1: ['майка', 100, 5], 
                 product2: ['носки', 200, 3], 
                 product3: ['пакет', 100, 1]
             };
 
-var totalCost = 0;
-
-for (var product in basket){
+function totalCostBasket(basket) {
+    var totalCost = 0;
+    for (var product in basket){
         totalCost += basket[product][1] * basket[product][2];
+    }
+    return totalCost;
+    // console.log("Стоимость - общая", totalCost);
 }
 
-console.log("Стоимость - общая", totalCost);
 
+// Вариант 2 (массив)
+var unit = [
+    {
+        id: 1, // 'good_1'
+        name: 'Футболка',
+        price: 1000,
+        quantity: 1,
+    },
+    {
+        id: 2, // 'good_2'
+        name: 'Носки',
+        price: 546,
+        quantity: 5,
+    },
+];
+
+function totalCost(unit){
+    var total = 0;
+    for(var i = 0; i < unit.length; i++){
+        total = total + unit[i].price * unit[i].quantity;
+    }
+    return total;
+}
 
 // 3. * Подумать над глобальными сущностями. К примеру, сущность «Продукт» в интернет-магазине актуальна не только для корзины, 
 // но и для каталога. Стремиться нужно к тому, чтобы объект «Продукт» имел единую структуру для различных модулей сайта, 

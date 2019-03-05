@@ -168,10 +168,12 @@ function totalCostBasket(basket) {
     var totalCost = 0;
     for (var product in basket){
         totalCost += basket[product][1] * basket[product][2];
+        console.log(basket[product]);
     }
     return totalCost;
     // console.log("Стоимость - общая", totalCost);
 }
+totalCostBasket(basket);
 
 
 // Вариант 2 (массив)

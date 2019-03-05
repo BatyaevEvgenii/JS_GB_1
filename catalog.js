@@ -32,18 +32,20 @@ var productsArray = [
 },
 ];
 
-
-for(i = 0; i < productsArray.length; i++){
-  var $row = document.createElement('tr');
-  $row.textContent = productsArray[i].id + ' image';
-  for(var j = 1; j < 2; j++){
-    var $cell = document.createElement('td');
-    $cell.textContent = productsArray[i].name + ', цена: ' +  productsArray[i].price + ' ₽, на складе: ' + productsArray[i].quantity + ' шт.';
-    $row.appendChild($cell);
-  }
+function getProductArray(productsArray){
+  for(i = 0; i < productsArray.length; i++){
+    var $row = document.createElement('tr');
+    $row.textContent = productsArray[i].id + ' image';
+    for(var j = 1; j < 2; j++){
+      var $cell = document.createElement('td');
+      $cell.textContent = productsArray[i].name + ', цена: ' +  productsArray[i].price + ' ₽, на складе: ' + productsArray[i].quantity + ' шт.';
+      $row.appendChild($cell);
+    }
   
-  $table.appendChild($row);
-}
+    $table.appendChild($row);
+  }
 
 // $catalog[0].appendChild($table);
-$catalog.appendChild($table);
+  $catalog.appendChild($table);
+}
+getProductArray(productsArray);

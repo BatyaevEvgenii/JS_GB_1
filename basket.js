@@ -1,34 +1,34 @@
 // данные корзины
 var $basket = document.getElementById('basket');
 var basketArray = [
-  {
-      id: 1, // 'good_1'
-      name: 'Футболка',
-      price: 1000,
-      quantity: 3,
-  },
-  {
-      id: 2, // 'good_2'
-      name: 'Носки',
-      price: 546,
-      quantity: 9,
-  },
+  // {
+  //     id: 1, // 'good_1'
+  //     name: 'Футболка',
+  //     price: 1000,
+  //     quantity: 3,
+  // },
+  // {
+  //     id: 2, // 'good_2'
+  //     name: 'Носки',
+  //     price: 546,
+  //     quantity: 9,
+  // },
 ];
 
 var $board = document.getElementById('board');
 
-function getBasket(unit){
+function getBasket(basketArray){
   var total = 0; 
   var count = 0;
   var $table = document.createElement('table');
   
-  for(i = 0; i < basketArray.length; i++){
+  for(var i = 0; i < basketArray.length; i++){
     var $row = document.createElement('tr');
-    $row.textContent = basketArray[i].id + ' ' +basketArray[i].name + ', цена: ' + basketArray[i].price + ', количество: ' + basketArray[i].quantity ;
+    $row.textContent = basketArray[i].id + ' ' + basketArray[i].name + ' цена: ' + basketArray[i].price + ', количество: ' + basketArray[i].quantity ;
     $table.appendChild($row);
-    console.log(basketArray[i]);
+    // console.log(basketArray[i]);
   }
-  $board.appendChild($table);
+  // $board.appendChild($table);
 
   if (basketArray.length === 0){
     $basket.textContent = 'Корзина пуста!!!';
@@ -41,6 +41,8 @@ function getBasket(unit){
   }
   $basket.textContent = 'В корзине: '+ count + ' товар(-ов), на сумму ' + total + ' рублей.';
   }
+
+  $board.appendChild($table);
 }
 getBasket(basketArray);
 
@@ -108,7 +110,9 @@ function handleAddClick(unit){
     var rowArray = row.textContent.split(' ');
     // console.log(rowArray);
 
-    basketArray.push({id: (basketArray.length + 1), name: rowArray[0], price: parseInt(rowArray[2]), quantity: 1})
+    basketArray.push({id: (basketArray.length + 1), name: rowArray[0], price: parseInt(rowArray[2]), quantity: 1});
+    console.log(basketArray);
+    $board.remove($table);
     getBasket(basketArray);
   }
 }

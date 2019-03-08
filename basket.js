@@ -15,6 +15,8 @@ var basketArray = [
   // },
 ];
 
+
+
 var $board = document.getElementById('board');
 
 function getBasket(basketArray){
@@ -23,12 +25,16 @@ function getBasket(basketArray){
   var $table = document.createElement('table');
   
   for(var i = 0; i < basketArray.length; i++){
+    var $button = document.createElement('button');
+    var $textButton = document.createTextNode('Продать');
     var $row = document.createElement('tr');
     $row.textContent = basketArray[i].id + ' ' + basketArray[i].name + ' цена: ' + basketArray[i].price + ', количество: ' + basketArray[i].quantity ;
+    
+    $button.appendChild($textButton);
+    $row.appendChild($button);
+
     $table.appendChild($row);
-    // console.log(basketArray[i]);
   }
-  // $board.appendChild($table);
 
   if (basketArray.length === 0){
     $basket.textContent = 'Корзина пуста!!!';
@@ -36,8 +42,7 @@ function getBasket(basketArray){
   else {
     for(var i = 0; i < basketArray.length; i++){
       total = total + basketArray[i].price * basketArray[i].quantity;
-      // count += (unit.length - 1); // количество наименований товаров
-      count += basketArray[i].quantity; // общее суммарное количество всех товаров
+      count += basketArray[i].quantity;
   }
   $basket.textContent = 'В корзине: '+ count + ' товар(-ов), на сумму ' + total + ' рублей.';
   }
@@ -46,6 +51,16 @@ function getBasket(basketArray){
 }
 getBasket(basketArray);
 
+// проверка что что-то где-то есть, при условии что что-то где-то ниже будет определено
+function getProductIndex(name){
+  var idx = -1;
+  for(var i = 0; i < basketArray.length; i++){
+    if (basketArray[i].name === name){
+      idx = i;
+    }
+  }
+  return idx;
+}
 
 // данные каталога
 var $catalog = document.querySelector('.catalog')
@@ -82,7 +97,7 @@ var productsArray = [
 ];
 
 function getProductArray(productsArray){
-  for(i = 0; i < productsArray.length; i++){
+  for(var i = 0; i < productsArray.length; i++){
     var $row = document.createElement('tr');
     $row.textContent = productsArray[i].id + ' image';
     var $button = document.createElement('button');
@@ -106,13 +121,31 @@ $catalog.addEventListener('click', handleAddClick);
 function handleAddClick(unit){
   if(unit.target.tagName === 'BUTTON'){
     var row = unit.target.previousSibling;
-    // console.log($row);
     var rowArray = row.textContent.split(' ');
-    // console.log(rowArray);
+    // проверка на наличие одноименного товара в корзине
+    var name = rowArray[0];
+    var idx = getProductIndex(name);
+    if (idx === -1){
+      // когда товара нет
+      basketArray.push({id: (basketArray.length + 1), name: rowArray[0], price: parseInt(rowArray[2]), quantity: 1});
+    } else {
+      basketArray[idx].quantity++;
+    }
+    $board.textContent = " ";
+    getBasket(basketArray);
+  }
+}
 
-    basketArray.push({id: (basketArray.length + 1), name: rowArray[0], price: parseInt(rowArray[2]), quantity: 1});
-    console.log(basketArray);
-    $board.remove($table);
+// отлавливаем нажатие Продать
+$board.addEventListener('click', handleDeleteClick);
+
+function handleDeleteClick(unit) {
+  if (unit.target.tagName === 'BUTTON'){
+    for( var i = 0; i < basketArray.length; i++){ 
+      var ba = basketArray[i];
+    }
+    basketArray.splice(ba, 1);
+    $board.textContent = " ";
     getBasket(basketArray);
   }
 }

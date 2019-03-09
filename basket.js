@@ -141,11 +141,21 @@ $board.addEventListener('click', handleDeleteClick);
 
 function handleDeleteClick(unit) {
   if (unit.target.tagName === 'BUTTON'){
-    for( var i = 0; i < basketArray.length; i++){ 
-      var ba = basketArray[i];
+    var productRow = unit.target.previousSibling;
+    var productArray = productRow.textContent.split(' ');
+    var name = productArray[1];
+    var quantity = productArray[5];
+    var idx = getProductIndex(name);
+
+    if (quantity > 1){
+      basketArray[idx].quantity--;
+    } else{
+      if(confirm('Вы действительно хотите удалить последний товар?')) {
+        basketArray.splice(idx, 1);
+      }
     }
-    basketArray.splice(ba, 1);
     $board.textContent = " ";
     getBasket(basketArray);
   }
+  
 }

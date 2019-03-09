@@ -15,8 +15,6 @@ var basketArray = [
   // },
 ];
 
-
-
 var $board = document.getElementById('board');
 
 function getBasket(basketArray){
@@ -150,12 +148,11 @@ function handleDeleteClick(unit) {
     if (quantity > 1){
       basketArray[idx].quantity--;
     } else{
-      if(confirm('Вы действительно хотите удалить последний товар?')) {
+      if(confirm('Вы удаляете последний товар?')) {
         basketArray.splice(idx, 1);
       }
     }
     $board.textContent = " ";
     getBasket(basketArray);
   }
-  
 }
